@@ -61,6 +61,7 @@
     ".next/cache"
   ],
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
     "@clickhouse/client": "^1.12.0",
     "@date-fns/utc": "^1.2.0",
     "@dicebear/collection": "^9.2.3",
@@ -103,6 +104,7 @@
     "lucide-react": "^0.543.0",
     "maxmind": "^5.0.0",
     "next": "^15.5.9",
+    "next-auth": "^4.24.13",
     "node-fetch": "^3.2.8",
     "npm-run-all": "^4.1.5",
     "papaparse": "^5.5.3",

@@ -17,14 +17,20 @@ export function getBearerToken(request: Request) {
 
 export async function checkAuth(request: Request) {
   const token = getBearerToken(request);
+  console.log('[checkAuth] Token received:', token ? `${token.substring(0, 20)}...` : 'none');
+
   const payload = parseSecureToken(token, secret());
+  console.log('[checkAuth] Parsed payload:', payload);
+
   const shareToken = await parseShareToken(request);
 
   let user = null;
   const { userId, authKey } = payload || {};
+  console.log('[checkAuth] userId from token:', userId, 'authKey:', authKey);
 
   if (userId) {
     user = await getUser(userId);
+    console.log('[checkAuth] User from DB:', user ? `Found user ${user.id}` : 'User not found');
   } else if (redis.enabled && authKey) {
     const key = await redis.client.get(authKey);
 
@@ -37,6 +43,7 @@ export async function checkAuth(request: Request) {
 
   if (!user?.id && !shareToken) {
     log('User not authorized');
+    console.log('[checkAuth] Authorization failed - no user and no shareToken');
     return null;
   }
 
@@ -44,6 +51,7 @@ export async function checkAuth(request: Request) {
     user.isAdmin = user.role === ROLES.admin;
   }
 
+  console.log('[checkAuth] Authorization successful for user:', user?.id);
   return {
     token,
     authKey,

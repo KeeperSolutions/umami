@@ -1,4 +1,5 @@
 import {
+  Button,
   Column,
   Form,
   FormButtons,
@@ -7,9 +8,11 @@ import {
   Heading,
   Icon,
   PasswordField,
+  Text,
   TextField,
 } from '@umami/react-zen';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useMessages, useUpdateQuery } from '@/components/hooks';
 import { Logo } from '@/components/svg';
 import { setClientAuthToken } from '@/lib/client';
@@ -30,12 +33,22 @@ export function LoginForm() {
     });
   };
 
+  const handleGoogleSignIn = () => {
+    signIn('google', { callbackUrl: '/' });
+  };
+
   return (
-    <Column justifyContent="center" alignItems="center" gap="6">
+    <Column
+      justifyContent="center"
+      alignItems="center"
+      gap="6"
+      padding="8"
+      style={{ height: '100vh' }}
+    >
       <Icon size="lg">
         <Logo />
       </Icon>
-      <Heading>umami</Heading>
+      <Heading>Keeper Solutions Umami</Heading>
       <Form onSubmit={handleSubmit} error={getErrorMessage(error)}>
         <FormField
           label={formatMessage(labels.username)}
@@ -65,6 +78,16 @@ export function LoginForm() {
           </FormSubmitButton>
         </FormButtons>
       </Form>
+
+      {process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED !== 'false' && (
+        <Button
+          onClick={handleGoogleSignIn}
+          variant="outline"
+          style={{ width: '100%', maxWidth: '300px' }}
+        >
+          Sign in with Google
+        </Button>
+      )}
     </Column>
   );
 }
