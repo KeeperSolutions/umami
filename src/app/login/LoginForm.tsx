@@ -49,7 +49,7 @@ export function LoginForm() {
         <Logo />
       </Icon>
       <Heading>Keeper Solutions Umami</Heading>
-      <Form onSubmit={handleSubmit} error={getErrorMessage(error)}>
+      {/* <Form onSubmit={handleSubmit} error={getErrorMessage(error)}>
         <FormField
           label={formatMessage(labels.username)}
           data-test="input-username"
@@ -77,7 +77,7 @@ export function LoginForm() {
             {formatMessage(labels.login)}
           </FormSubmitButton>
         </FormButtons>
-      </Form>
+      </Form> */}
 
       {process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED !== 'false' && (
         <Button
